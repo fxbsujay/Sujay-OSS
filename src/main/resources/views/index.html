@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>范学彬的代码生成器</title>
+  <!-- 导入样式 -->
+  <link rel="stylesheet" href="lib/elment.css">
+  <link rel="stylesheet" href="css/index.css">
+  <script src="lib/axios.js"></script>
+  <script src="js/api.js"></script>
+  <script src="lib/vue.js"></script>
+  <script src="lib/elment-ui.js"></script>
+  <script src="js/utils.js"></script>
+</head>
+<body  style="overflow: hidden;">
+<div id="app">
+  <div class="common-layout">
+    <el-container direction="vertaical">
+      <el-header>
+        <div>
+          <el-menu
+                  :default-active="menu.index"
+                  class="el-menu-demo"
+                  mode="horizontal"
+                  background-color="#545c64"
+                  text-color="#fff"
+                  active-text-color="#ffd04b"
+                  @select="handleSelect"
+          >
+            <el-menu-item v-for="menu in menuList" :index="menu.index">{{ menu.title }}</el-menu-item>
+          </el-menu>
+        </div>
+      </el-header>
+      <el-main>
+        <iframe scrolling="yes" frameborder="0" width="100%"  id="iframeId"  :src="menu.path"></iframe>
+      </el-main>
+      <el-footer>{{ menu.title }}</el-footer>
+    </el-container>
+  </div>
+</div>
+<script src="js/index.js"></script>
+</body>
+<script>
+  var ifm = document.getElementById("iframeId");
+  ifm.height = document.documentElement.clientHeight - 120;
+</script>
+</html>
