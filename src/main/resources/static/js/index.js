@@ -10,28 +10,13 @@ const App = {
             menuList: [
                 {
                     index: 1,
-                    path: 'main.html',
-                    title: '首页'
+                    path: 'a.html',
+                    title: 'a'
                 },
                 {
                     index: 2,
-                    path: 'source.html',
-                    title: '数据源'
-                },
-                {
-                    index: 3,
-                    path: 'table.html',
-                    title: '数据表'
-                },
-                {
-                    index: 4,
-                    path: 'fieldType.html',
-                    title: '字段管理'
-                },
-                {
-                    index: 5,
-                    path: 'template.html',
-                    title: '模板管理'
+                    path: 'b.html',
+                    title: 'b'
                 }
             ]
         })
@@ -49,6 +34,22 @@ const App = {
         }
     }
 }
+const Home = { template: '#a.html' }
+const About = { template: '#b.html' }
+const routes = [
+    { path: '/#a.html', component: Home },
+    { path: '/#b.html', component: About },
+]
+
+const router = VueRouter.createRouter({
+    history: VueRouter.createWebHashHistory(),
+    routes
+})
 const app = Vue.createApp(App);
+
+app.use(router);
 app.use(ElementPlus);
 app.mount("#app");
+router.beforeEach((to, from) => {
+    console.log(menu)
+})
