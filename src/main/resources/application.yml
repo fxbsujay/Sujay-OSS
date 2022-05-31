@@ -17,7 +17,7 @@ spring:
     time-zone: GMT+8
     date-format: yyyy-MM-dd HH:mm:ss
   resources:
-    static-locations: classpath:/static/,classpath:/views/
+    static-locations: classpath:/static/,classpath:/views/,classpath:/config/
 
 mybatis:
   mapperLocations: classpath:mapper/*.xml
@@ -30,4 +30,4 @@ pagehelper:
   params: count=countSql
 
 logging:
-  config: classpath:logback-spring.xml
+  config: classpath:config/logback-spring.xml
