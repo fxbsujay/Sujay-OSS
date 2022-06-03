@@ -25,125 +25,124 @@
         ORDER BY update_date DESC
     </select>
 
-
     <select id="selectById" resultMap="resultMap" >
         select * from `file` where id = #{id}
     </select>
 
     <insert id="insert" parameterType="com.susu.oss.entity.FileEntity" useGeneratedKeys="true" keyProperty="id">
         INSERT  INTO `file` (
-        <if test="id != null and id !=''">
-        id,
-    </if>
-    <if test="name != null and name !=''">
-    name,
-</if>
-<if test="url != null and url !=''">
-        url,
-        </if>
-<if test="path != null and path !=''">
-        path,
-        </if>
-<if test="isPublic != null and isPublic !=''">
-        is_public,
-        </if>
-<if test="createDate != null and createDate !=''">
-        create_date,
-        </if>
-<if test="updateDate != null and updateDate !=''">
-        update_date,
-        </if>
+            <if test="id != null and id !=''">
+                id,
+            </if>
+            <if test="name != null and name !=''">
+                name,
+            </if>
+            <if test="url != null and url !=''">
+                url,
+            </if>
+            <if test="path != null and path !=''">
+                path,
+            </if>
+            <if test="isPublic != null and isPublic !=''">
+                is_public,
+            </if>
+            <if test="createDate != null and createDate !=''">
+                create_date,
+            </if>
+            <if test="updateDate != null and updateDate !=''">
+                update_date,
+            </if>
         )
         VALUES (
-<if test="id != null and id !=''">
-        #{id},
-        </if>
-<if test="name != null and name !=''">
-        #{name},
-        </if>
-<if test="url != null and url !=''">
-        #{url},
-        </if>
-<if test="path != null and path !=''">
-        #{path},
-        </if>
-<if test="isPublic != null and isPublic !=''">
-        #{isPublic},
-        </if>
-<if test="createDate != null and createDate !=''">
-        #{createDate},
-        </if>
-<if test="updateDate != null and updateDate !=''">
-        #{updateDate},
-        </if>
+            <if test="id != null and id !=''">
+                #{id},
+            </if>
+            <if test="name != null and name !=''">
+                #{name},
+            </if>
+            <if test="url != null and url !=''">
+                #{url},
+            </if>
+            <if test="path != null and path !=''">
+                #{path},
+            </if>
+            <if test="isPublic != null and isPublic !=''">
+                #{isPublic},
+            </if>
+            <if test="createDate != null and createDate !=''">
+                #{createDate},
+            </if>
+            <if test="updateDate != null and updateDate !=''">
+                #{updateDate},
+            </if>
         )
-        </insert>
+    </insert>
 
 
-<insert id="insertBatch" parameterType="com.susu.oss.entity.FileEntity">
-INSERT  INTO `file` (
-id,
-name,
-url,
-path,
-is_public,
-create_date,
-update_date,
-) VALUES
-<foreach collection="list" item="item" index="index" separator="," >
-    (
-    #{item.id,jdbcType=bigint},
-    #{item.name,jdbcType=varchar},
-    #{item.url,jdbcType=varchar},
-    #{item.path,jdbcType=varchar},
-    #{item.isPublic,jdbcType=char},
-    #{item.createDate,jdbcType=datetime},
-    #{item.updateDate,jdbcType=datetime},
-    )
-</foreach>
-</insert>
+    <insert id="insertBatch" parameterType="com.susu.oss.entity.FileEntity">
+        INSERT  INTO `file` (
+            id,
+            name,
+            url,
+            path,
+            is_public,
+            create_date,
+            update_date,
+        ) VALUES
+        <foreach collection="list" item="item" index="index" separator="," >
+        (
+            #{item.id,jdbcType=bigint},
+            #{item.name,jdbcType=varchar},
+            #{item.url,jdbcType=varchar},
+            #{item.path,jdbcType=varchar},
+            #{item.isPublic,jdbcType=char},
+            #{item.createDate,jdbcType=datetime},
+            #{item.updateDate,jdbcType=datetime},
+        )
+        </foreach>
+    </insert>
 
-<update id="updateById" parameterType="com.susu.oss.entity.FileEntity">
-update `file` set
-<if test="id != null and id !=''">
-id =#{id},
-</if>
-<if test="name != null and name !=''">
-        name =#{name},
+    <update id="updateById" parameterType="com.susu.oss.entity.FileEntity">
+    update `file` set
+        <if test="id != null and id !=''">
+            id =#{id},
         </if>
-<if test="url != null and url !=''">
-        url =#{url},
+        <if test="name != null and name !=''">
+            name =#{name},
         </if>
-<if test="path != null and path !=''">
-        path =#{path},
+        <if test="url != null and url !=''">
+            url =#{url},
+         </if>
+        <if test="path != null and path !=''">
+            path =#{path},
         </if>
-<if test="isPublic != null and isPublic !=''">
-        is_public =#{isPublic},
+        <if test="isPublic != null and isPublic !=''">
+            is_public =#{isPublic},
         </if>
-<if test="createDate != null and createDate !=''">
-        create_date =#{createDate},
+        <if test="createDate != null and createDate !=''">
+            create_date =#{createDate},
         </if>
-<if test="updateDate != null and updateDate !=''">
-        update_date =#{updateDate},
+        <if test="updateDate != null and updateDate !=''">
+            update_date =#{updateDate},
         </if>
         where id =#{id}
-        </update>
+    </update>
 
-<delete id="deleteById">
-delete from `file` where id = #{id}
-</delete>
+    <delete id="deleteById">
+        delete from `file` where id = #{id}
+    </delete>
 
-<delete id="delete">
-delete from `file`
-<include refid="whereParams"></include>
-</delete>
+    <delete id="delete">
+        delete from `file`
+        <include refid="whereParams"></include>
+    </delete>
 
-<delete id="deleteBatch">
-delete from `file`
-where id in
-<foreach collection="ids" item="id" index="index" open="(" separator="," close=")">
-    #{id}
-</foreach>
-</delete>
+    <delete id="deleteBatch">
+        delete from `file`
+        where id in
+        <foreach collection="ids" item="id" index="index" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
 
-        </mapper>
+</mapper>
