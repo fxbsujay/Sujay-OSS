@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.susu.oss.dao.UserDao">
+
+    <resultMap id="resultMap" type="com.susu.oss.entity.UserEntity">
+        <result column="id" property="id" />
+        <result column="username" property="username" />
+        <result column="password" property="password" />
+        <result column="status" property="status" />
+        <result column="create_date" property="createDate" />
+        <result column="update_date" property="updateDate" />
+    </resultMap>
+
+    <sql id="whereParams">
+        <where>
+
+        </where>
+    </sql>
+
+    <select id="queryList" resultMap="resultMap">
+        SELECT * FROM `user`
+        <include refid="whereParams"></include>
+        ORDER BY update_date DESC
+    </select>
+
+
+    <select id="selectById" resultMap="resultMap" >
+        select * from `user` where id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.susu.oss.entity.UserEntity" useGeneratedKeys="true" keyProperty="id">
+        INSERT  INTO `user` (
+        <if test="id != null and id !=''">
+        id,
+    </if>
+    <if test="username != null and username !=''">
+    username,
+</if>
+<if test="password != null and password !=''">
+        password,
+        </if>
+<if test="status != null and status !=''">
+        status,
+        </if>
+<if test="createDate != null and createDate !=''">
+        create_date,
+        </if>
+<if test="updateDate != null and updateDate !=''">
+        update_date,
+        </if>
+        )
+        VALUES (
+<if test="id != null and id !=''">
+        #{id},
+        </if>
+<if test="username != null and username !=''">
+        #{username},
+        </if>
+<if test="password != null and password !=''">
+        #{password},
+        </if>
+<if test="status != null and status !=''">
+        #{status},
+        </if>
+<if test="createDate != null and createDate !=''">
+        #{createDate},
+        </if>
+<if test="updateDate != null and updateDate !=''">
+        #{updateDate},
+        </if>
+        )
+        </insert>
+
+
+<insert id="insertBatch" parameterType="com.susu.oss.entity.UserEntity">
+INSERT  INTO `user` (
+id,
+username,
+password,
+status,
+create_date,
+update_date,
+) VALUES
+<foreach collection="list" item="item" index="index" separator="," >
+    (
+    #{item.id,jdbcType=bigint},
+    #{item.username,jdbcType=varchar},
+    #{item.password,jdbcType=varchar},
+    #{item.status,jdbcType=char},
+    #{item.createDate,jdbcType=datetime},
+    #{item.updateDate,jdbcType=datetime},
+    )
+</foreach>
+</insert>
+
+<update id="updateById" parameterType="com.susu.oss.entity.UserEntity">
+update `user` set
+<if test="id != null and id !=''">
+id =#{id},
+</if>
+<if test="username != null and username !=''">
+        username =#{username},
+        </if>
+<if test="password != null and password !=''">
+        password =#{password},
+        </if>
+<if test="status != null and status !=''">
+        status =#{status},
+        </if>
+<if test="createDate != null and createDate !=''">
+        create_date =#{createDate},
+        </if>
+<if test="updateDate != null and updateDate !=''">
+        update_date =#{updateDate},
+        </if>
+        where id =#{id}
+        </update>
+
+<delete id="deleteById">
+delete from `user` where id = #{id}
+</delete>
+
+<delete id="delete">
+delete from `user`
+<include refid="whereParams"></include>
+</delete>
+
+<delete id="deleteBatch">
+delete from `user`
+where id in
+<foreach collection="ids" item="id" index="index" open="(" separator="," close=")">
+    #{id}
+</foreach>
+</delete>
+
+</mapper>

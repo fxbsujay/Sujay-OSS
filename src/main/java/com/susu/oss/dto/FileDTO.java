@@ -4,35 +4,37 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import java.io.Serializable;
 import com.susu.oss.common.base.BaseDTO;
+import java.util.Date;
 
 /**
  * @author fxbsujay@gmail.com
- * 上传记录表
+ * 上传文件表
  */
 @Data
 @EqualsAndHashCode(callSuper=false)
-public class UploadDTO extends BaseDTO implements Serializable{
+public class FileDTO extends BaseDTO implements Serializable{
   
   	private static final long serialVersionUID = 1L;
 
 	/**
-	* 上传ip
+	* 文件名
 	*/
-   	private String ip;
+   	private String name;
 	  
 	/**
-	* 类型 0 图片
+	* 文件链接
 	*/
-   	private String type;
+   	private String url;
 	  
 	/**
-	* 文件大小
+	* 文件保存地址
 	*/
-   	private Float size;
+   	private String path;
 	  
 	/**
-	* 文件id
+	* 是否公开 0 表示否 1 表示是
 	*/
-   	private Long fileId;
+   	private String isPublic;
+
 	  
 }
