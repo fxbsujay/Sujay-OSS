@@ -23,7 +23,6 @@ public class LogoutHandler implements org.springframework.security.web.authentic
         this.tokenManager = tokenManager;
     }
 
-    // 退出
     @Override
     public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
         String token = request.getHeader("token");

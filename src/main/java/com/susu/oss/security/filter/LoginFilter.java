@@ -6,6 +6,7 @@ import com.susu.oss.security.entity.User;
 import com.susu.oss.security.security.TokenManager;
 import com.susu.oss.security.utils.ResponseUtil;
 import com.susu.oss.security.utils.SecurityReturn;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -27,42 +28,43 @@ import java.util.ArrayList;
  * @author qy
  * @since 2019-11-08
  */
+@Slf4j
 public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
-    private AuthenticationManager authenticationManager;
-    private TokenManager tokenManager;
+    private final AuthenticationManager authenticationManager;
+    private final TokenManager tokenManager;
 
     public LoginFilter(AuthenticationManager authenticationManager, TokenManager tokenManager) {
         this.authenticationManager = authenticationManager;
         this.tokenManager = tokenManager;
         this.setPostOnly(false);
-        // 拦截地址
         this.setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher("/auth/login","POST"));
     }
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res)
             throws AuthenticationException {
+
         User user = null;
+
+        Authentication authenticate = null;
+
         try {
             user = new ObjectMapper().readValue(req.getInputStream(), User.class);
-        }catch (SecurityException | IOException s){
-            throw new SecurityException(s);
+
+            authenticate = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword(),
+                            new ArrayList<>()));
+        }catch (Exception e){
+            ResponseUtil.out(res,SecurityReturn.error(e.getMessage()));
+            log.error("Security Error MESSAGE: {}",e.getMessage());
         }
 
-        return authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword(),
-                        new ArrayList<>()));
+        return authenticate;
     }
 
     /**
      * 登录成功
-     * @param req
-     * @param res
-     * @param chain
-     * @param auth
-     * @throws IOException
-     * @throws ServletException
      */
     @Override
     protected void successfulAuthentication(HttpServletRequest req, HttpServletResponse res, FilterChain chain,
@@ -78,15 +80,11 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
     /**
      * 登录失败
-     * @param request
-     * @param response
-     * @param e
-     * @throws IOException
-     * @throws ServletException
      */
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
                                               AuthenticationException e) throws IOException, ServletException {
-        ResponseUtil.out(response, SecurityReturn.error());
+        log.error("Security Error MESSAGE: {}",e.getMessage());
+        ResponseUtil.out(response, SecurityReturn.error(e.getMessage()));
     }
 }

@@ -1,9 +1,9 @@
 package com.susu.oss.security.filter;
 
+import com.susu.oss.common.enums.ErrorEnum;
 import com.susu.oss.security.security.TokenManager;
 import com.susu.oss.security.utils.ResponseUtil;
 import com.susu.oss.security.utils.SecurityReturn;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -52,7 +52,7 @@ public class AuthenticationFilter extends BasicAuthenticationFilter {
         if (authentication != null) {
             SecurityContextHolder.getContext().setAuthentication(authentication);
         } else {
-            ResponseUtil.out(res, SecurityReturn.error());
+            ResponseUtil.out(res, SecurityReturn.error(ErrorEnum.ERROR_500));
         }
 
         chain.doFilter(req, res);

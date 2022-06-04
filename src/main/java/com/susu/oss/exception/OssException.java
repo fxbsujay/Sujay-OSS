@@ -4,9 +4,9 @@ import com.susu.oss.common.enums.ErrorEnum;
 
 public class OssException extends RuntimeException{
 
-    private Integer code = 500;
+    private Integer code = ErrorEnum.ERROR_500.getCode();
 
-    private String msg;
+    private String msg = ErrorEnum.ERROR_500.getMessage();
 
     public OssException(ErrorEnum e) {
         this.code = e.getCode();

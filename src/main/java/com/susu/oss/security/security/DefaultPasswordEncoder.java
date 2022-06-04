@@ -1,5 +1,6 @@
 package com.susu.oss.security.security;
 
+import com.susu.oss.exception.OssException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -15,6 +16,8 @@ import org.springframework.util.StringUtils;
  */
 @Component
 public class DefaultPasswordEncoder implements PasswordEncoder {
+
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public DefaultPasswordEncoder() {
         this(-1);
@@ -32,10 +35,9 @@ public class DefaultPasswordEncoder implements PasswordEncoder {
     public String encode(CharSequence rawPassword) {
 
         if (rawPassword == null) {
-            throw  new IllegalArgumentException("密码为空");
+            throw new OssException("密码为空");
         }
-        // security 自带加盐加密算法
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
         return passwordEncoder.encode(rawPassword);
     }
 
@@ -49,12 +51,13 @@ public class DefaultPasswordEncoder implements PasswordEncoder {
     public boolean matches(CharSequence rawPassword, String encodedPassword) {
 
         if (StringUtils.isEmpty(rawPassword) || StringUtils.isEmpty(encodedPassword)){
-            throw  new IllegalArgumentException("密码为空");
+            throw  new OssException("密码为空");
         }
 
-        // security 自带加盐加密算法
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        return passwordEncoder.matches(rawPassword,encodedPassword);
+        if (!passwordEncoder.matches(rawPassword, encodedPassword)) {
+            throw new OssException("密码错误");
+        }
+        return true;
 
     }
 }

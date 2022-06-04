@@ -1,6 +1,7 @@
 package com.susu.oss.common;
 
 
+import com.susu.oss.common.constant.SysConstant;
 import com.susu.oss.common.enums.ErrorEnum;
 import lombok.Data;
 
@@ -16,24 +17,14 @@ import lombok.Data;
 public class Result<T> {
 
     /**
-     * 成功编码
-     **/
-    public static final int SUCCESS_CODE = 200;
-
-    /**
-     * 失败编码
-     **/
-    public static final int ERROR_CODE = 500;
-
-    /**
      * 编码
      **/
-    private int code = SUCCESS_CODE;
+    private int code = SysConstant.HTTP_SUCCESS_CODE;
 
     /**
      * 消息内容
      **/
-    private String msg = "操作成功";
+    private String msg = SysConstant.HTTP_SUCCESS_MSG;
 
     /**
      * 数据
@@ -50,13 +41,12 @@ public class Result<T> {
     }
 
     public Result<T> error() {
-        this.setCode(ERROR_CODE);
-        this.setMsg("操作失败");
+        error(ErrorEnum.ERROR_500);
         return this;
     }
 
     public Result<T> error(String msg) {
-        this.setCode(ERROR_CODE);
+        this.setCode(ErrorEnum.ERROR_500.getCode());
         this.setMsg(msg);
         return this;
     }

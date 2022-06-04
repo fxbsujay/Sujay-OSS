@@ -1,39 +1,31 @@
 package com.susu.oss.security.utils;
 
 
+import com.susu.oss.common.constant.SysConstant;
+import com.susu.oss.common.enums.ErrorEnum;
 import io.swagger.annotations.ApiModelProperty;
-
 import java.util.HashMap;
 import java.util.Map;
 
 public class SecurityReturn {
 
-
     @ApiModelProperty(value = "是否成功")
     private Boolean success = true;
 
     @ApiModelProperty(value = "返回码")
-    private Integer code = 0;
+    private Integer code = SysConstant.HTTP_SUCCESS_CODE;
 
     @ApiModelProperty(value = "返回消息")
-    private String message = "操作成功";
+    private String msg = SysConstant.HTTP_SUCCESS_MSG;
 
     @ApiModelProperty(value = "返回数据")
     private Object data;
 
-    //把构造方法私有
     private SecurityReturn() {}
 
     //成功静态方法
     public static SecurityReturn ok() {
         return new SecurityReturn();
-    }
-
-    //成功静态方法
-    public static SecurityReturn ok(Object data) {
-        SecurityReturn r = new SecurityReturn();
-        r.setData(data);
-        return r;
     }
 
     //成功静态方法
@@ -47,29 +39,23 @@ public class SecurityReturn {
 
     //失败静态方法
     public static SecurityReturn error() {
+        return error(ErrorEnum.ERROR_500);
+    }
+
+    public static SecurityReturn error(String msg) {
         SecurityReturn r = new SecurityReturn();
         r.setSuccess(false);
-        r.setCode(1);
-        r.setMessage("操作失败");
+        r.setMsg(msg);
+        r.setCode(ErrorEnum.ERROR_500.getCode());
         return r;
     }
 
     //失败静态方法
-    public static SecurityReturn error(String message) {
+    public static SecurityReturn error(ErrorEnum e) {
         SecurityReturn r = new SecurityReturn();
         r.setSuccess(false);
-        r.setCode(1);
-        r.setMessage(message);
-        return r;
-    }
-
-    //失败静态方法
-    public static SecurityReturn error(Integer code, String message) {
-        SecurityReturn r = new SecurityReturn();
-        r.setSuccess(false);
-        r.setCode(1);
-        r.setMessage(message);
-        r.setCode(code);
+        r.setMsg(e.getMessage());
+        r.setCode(e.getCode());
         return r;
     }
 
@@ -79,7 +65,7 @@ public class SecurityReturn {
     }
 
     public SecurityReturn message(String message){
-        this.setMessage(message);
+        this.setMsg(message);
         return this;
     }
 
@@ -114,12 +100,12 @@ public class SecurityReturn {
         this.code = code;
     }
 
-    public String getMessage() {
-        return message;
+    public String getMsg() {
+        return msg;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setMsg(String msg) {
+        this.msg = msg;
     }
 
     public Object getData() {
