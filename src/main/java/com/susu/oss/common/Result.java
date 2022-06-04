@@ -1,6 +1,7 @@
 package com.susu.oss.common;
 
 
+import com.susu.oss.common.enums.ErrorEnum;
 import lombok.Data;
 
 /**
@@ -12,7 +13,7 @@ import lombok.Data;
  * @version 1.0
  */
 @Data
-public class Result {
+public class Result<T> {
 
     /**
      * 成功编码
@@ -37,38 +38,39 @@ public class Result {
     /**
      * 数据
      **/
-    private Object data;
+    private T data;
 
-    public static Result ok() {
-        return new Result();
+    public Result<T> ok() {
+        return this;
     }
 
-    public static Result ok(Object data) {
-        Result result = new Result();
-        result.setData(data);
-        return result;
+    public Result<T> ok(T data) {
+        this.setData(data);
+        return this;
     }
 
-    public static Result error() {
-        Result result = new Result();
-        result.setCode(ERROR_CODE);
-        result.setMsg("操作失败");
-        return result;
+    public Result<T> error() {
+        this.setCode(ERROR_CODE);
+        this.setMsg("操作失败");
+        return this;
     }
 
-    public static Result error(String msg) {
-        Result result = new Result();
-        result.setCode(ERROR_CODE);
-        result.setMsg(msg);
-        return result;
+    public Result<T> error(String msg) {
+        this.setCode(ERROR_CODE);
+        this.setMsg(msg);
+        return this;
     }
 
-    public static Result error(Integer code,String msg) {
-        Result result = new Result();
-        result.setCode(ERROR_CODE);
-        result.setCode(code);
-        result.setMsg(msg);
-        return result;
+    public Result<T> error(Integer code,String msg) {
+        this.setCode(code);
+        this.setMsg(msg);
+        return this;
+    }
+
+    public Result<T> error(ErrorEnum e) {
+        this.setCode(e.getCode());
+        this.setMsg(e.getMessage());
+        return this;
     }
 
 }

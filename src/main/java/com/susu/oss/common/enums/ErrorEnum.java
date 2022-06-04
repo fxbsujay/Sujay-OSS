@@ -9,9 +9,10 @@ import lombok.Getter;
 public enum ErrorEnum {
 
     /**
-     *  404
+     *  系统异常
      */
-    ERROR_404(404,"未找到对应资源");
+    ERROR_404(404,"未找到对应资源"),
+    ERROR_500(500,"操作失败");
 
     /**
      * code 编码

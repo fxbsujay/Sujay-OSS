@@ -1,6 +1,6 @@
 package com.susu.oss.dao;
 
-import com.susu.oss.common.base.BaseDao;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.susu.oss.entity.UploadEntity;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -8,6 +8,6 @@ import org.apache.ibatis.annotations.Mapper;
  * @author fxbsujay@gmail.com
  */
 @Mapper
-public interface UploadDao extends BaseDao<UploadEntity> {
+public interface UploadDao extends BaseMapper<UploadEntity> {
 
 }

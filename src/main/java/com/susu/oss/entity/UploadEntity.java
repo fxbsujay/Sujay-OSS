@@ -1,5 +1,6 @@
 package com.susu.oss.entity;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.susu.oss.common.base.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -10,6 +11,7 @@ import java.io.Serializable;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
+@TableName("upload")
 public class UploadEntity extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;

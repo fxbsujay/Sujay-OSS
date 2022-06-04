@@ -1,9 +1,9 @@
 package com.susu.oss.controller;
 
-import com.susu.oss.common.Query;
 import com.susu.oss.common.Result;
 import com.susu.oss.dto.UserDTO;
 import com.susu.oss.service.UserService;
+import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
 import com.susu.oss.common.PageData;
 import java.util.Map;
@@ -11,10 +11,10 @@ import java.util.Map;
 /**
  * @author fxbsujay@gmail.com
  */
+@Api( tags = "用户")
 @RestController
 @RequestMapping("user")
 public class UserController {
-
 
     private final UserService service;
 
@@ -23,38 +23,32 @@ public class UserController {
     }
 
     @GetMapping("/page")
-    public Result page(@RequestParam Map<String, Object> params){
-        PageData<UserDTO> page = service.page(new Query(params));
-        return Result.ok(page);
+    public Result<PageData<UserDTO>> page(@RequestParam Map<String, Object> params){
+        PageData<UserDTO> page = service.page(params);
+        return new Result<PageData<UserDTO>>().ok(page);
     }
 
     @GetMapping("{id}")
-    public Result info(@PathVariable("id") Long id){
-        UserDTO dto = service.info(id);
-        return Result.ok(dto);
+    public Result<UserDTO> info(@PathVariable("id") Long id){
+        UserDTO dto = service.get(id);
+        return new Result<UserDTO>().ok(dto);
     }
 
     @PostMapping
-    public Result save(@RequestBody UserDTO dto) {
+    public Result<Boolean> save(@RequestBody UserDTO dto) {
         Boolean flag = service.save(dto);
-        if (!flag) {
-            return Result.error();
-        }
-        return Result.ok();
+        return new Result<Boolean>().ok(flag);
     }
 
     @PutMapping
-    public Result update(@RequestBody UserDTO dto) {
+    public Result<Boolean> update(@RequestBody UserDTO dto) {
         Boolean flag = service.update(dto);
-        if (!flag) {
-            return Result.error();
-        }
-        return Result.ok();
+        return new Result<Boolean>().ok(flag);
     }
 
     @DeleteMapping
-    public Result delete(@RequestBody Long[] id) {
-        service.delete(id);
-        return Result.ok();
+    public Result<Integer> delete(@RequestBody Long[] id) {
+        Integer flag = service.delete(id);
+        return new Result<Integer>().ok(flag);
     }
 }
