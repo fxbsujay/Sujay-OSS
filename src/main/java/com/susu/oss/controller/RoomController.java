@@ -2,41 +2,40 @@ package com.susu.oss.controller;
 
 import com.susu.oss.common.PageData;
 import com.susu.oss.common.Result;
-import com.susu.oss.dto.FileDTO;
-import com.susu.oss.service.FileService;
-import io.swagger.annotations.Api;
+import com.susu.oss.dto.RoomDTO;
+import com.susu.oss.service.RoomService;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.Map;
 
 /**
  * @author fxbsujay@gmail.com
  */
-@Api( tags = "文件表")
 @RestController
-@RequestMapping("file")
-public class FileController {
+@RequestMapping("room")
+public class RoomController {
 
 
-    private final FileService service;
+    private final RoomService service;
 
-    public FileController(FileService service) {
+    public RoomController(RoomService service) {
         this.service = service;
     }
 
     @GetMapping("/page")
-    public Result<PageData<FileDTO>> page(@RequestParam Map<String, Object> params){
-        PageData<FileDTO> page = service.page(params);
+    public Result<PageData<RoomDTO>> page(@RequestParam Map<String, Object> params){
+        PageData<RoomDTO> page = service.page(params);
         return Result.ok(page);
     }
 
     @GetMapping("{id}")
-    public Result<FileDTO> info(@PathVariable("id") Long id){
-        FileDTO dto = service.get(id);
+    public Result<RoomDTO> info(@PathVariable("id") Long id){
+        RoomDTO dto = service.get(id);
         return Result.ok(dto);
     }
 
     @PostMapping
-    public Result<String> save(@RequestBody FileDTO dto) {
+    public Result<String> save(@RequestBody RoomDTO dto) {
         Boolean flag = service.save(dto);
         if (!flag) {
             return Result.error();
@@ -45,7 +44,7 @@ public class FileController {
     }
 
     @PutMapping
-    public Result<String> update(@RequestBody FileDTO dto) {
+    public Result<String> update(@RequestBody RoomDTO dto) {
         Boolean flag = service.update(dto);
         if (!flag) {
             return Result.error();

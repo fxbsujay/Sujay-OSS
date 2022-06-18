@@ -1,7 +1,6 @@
 package com.susu.oss.exception;
 
 import com.susu.oss.common.Result;
-import com.susu.oss.common.enums.ErrorEnum;
 import com.susu.oss.common.utils.StringUtils;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -14,7 +13,7 @@ public class OssExceptionHandler {
     @ResponseBody
     public Result<String> error(Exception e){
         e.printStackTrace();
-        return new Result<String>().error(ErrorEnum.ERROR_500);
+        return Result.error();
     }
 
     @ExceptionHandler(OssException.class)
@@ -22,12 +21,12 @@ public class OssExceptionHandler {
     public Result<String> error(OssException e){
         e.printStackTrace();
         if(e.getCode() == null){
-            return new Result<String>().error(e.getMsg());
+            return Result.error(e.getMsg());
         }else {
             if (StringUtils.isNotEmpty(e.getMsg())){
-                return new Result<String>().error(e.getCode(),e.getMsg());
+                return Result.error(e.getCode(),e.getMsg());
             }
-            return new Result<String>().error(e.getCode(),"系统异常");
+            return Result.error(e.getCode(),"系统异常");
         }
 
     }

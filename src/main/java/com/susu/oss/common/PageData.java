@@ -19,7 +19,7 @@ public class PageData<T> implements Serializable {
     /**
      * 总条数
      **/
-    private int total;
+    private long total;
 
     /**
      * 数据列表
@@ -33,6 +33,6 @@ public class PageData<T> implements Serializable {
      */
     public PageData(List<T> list, long total) {
         this.list = list;
-        this.total = (int)total;
+        this.total = total;
     }
 }

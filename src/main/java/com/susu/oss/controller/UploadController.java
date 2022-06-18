@@ -27,30 +27,36 @@ public class UploadController {
     @GetMapping("/page")
     public Result<PageData<UploadDTO>> page(@RequestParam Map<String, Object> params){
         PageData<UploadDTO> page = service.page(params);
-        return new Result<PageData<UploadDTO>>().ok(page);
+        return Result.ok(page);
     }
 
     @GetMapping("{id}")
     public Result<UploadDTO> info(@PathVariable("id") Long id){
         UploadDTO dto = service.get(id);
-        return new Result<UploadDTO>().ok(dto);
+        return Result.ok(dto);
     }
 
     @PostMapping
-    public Result<Boolean> save(@RequestBody UploadDTO dto) {
+    public Result<String> save(@RequestBody UploadDTO dto) {
         Boolean flag = service.save(dto);
-        return new Result<Boolean>().ok(flag);
+        if (!flag) {
+            return Result.error();
+        }
+        return Result.ok();
     }
 
     @PutMapping
-    public Result<Boolean> update(@RequestBody UploadDTO dto) {
+    public Result<String> update(@RequestBody UploadDTO dto) {
         Boolean flag = service.update(dto);
-        return new Result<Boolean>().ok(flag);
+        if (!flag) {
+            return Result.error();
+        }
+        return Result.ok();
     }
 
     @DeleteMapping
-    public Result<Integer> delete(@RequestBody Long[] id) {
-        Integer flag = service.delete(id);
-        return new Result<Integer>().ok(flag);
+    public Result<String> delete(@RequestBody Long[] id) {
+        service.delete(id);
+        return Result.ok();
     }
 }

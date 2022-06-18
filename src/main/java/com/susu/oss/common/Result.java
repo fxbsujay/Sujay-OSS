@@ -31,36 +31,59 @@ public class Result<T> {
      **/
     private T data;
 
-    public Result<T> ok() {
-        return this;
+    private Result() {
     }
 
-    public Result<T> ok(T data) {
-        this.setData(data);
-        return this;
+    private Result(T data) {
+        this.data = data;
     }
 
-    public Result<T> error() {
-        error(ErrorEnum.ERROR_500);
-        return this;
+    private Result(Integer code) {
+        this.code = code;
     }
 
-    public Result<T> error(String msg) {
-        this.setCode(ErrorEnum.ERROR_500.getCode());
-        this.setMsg(msg);
-        return this;
+    private Result(Integer code,String msg) {
+        this.code = code;
+        this.msg = msg;
     }
 
-    public Result<T> error(Integer code,String msg) {
-        this.setCode(code);
-        this.setMsg(msg);
-        return this;
+    private Result(String msg) {
+        this.msg = msg;
     }
 
-    public Result<T> error(ErrorEnum e) {
-        this.setCode(e.getCode());
-        this.setMsg(e.getMessage());
-        return this;
+
+    private Result(T data,String msg) {
+        this.data = data;
+        this.msg = msg;
+    }
+
+    public static Result<String> ok() {
+        return new Result<>();
+    }
+
+    public static <T> Result<T> ok(T data) {
+        return new Result<>(data);
+    }
+
+    public static <T> Result<T> ok(T data,String msg) {
+        return new Result<>(data,msg);
+    }
+
+
+    public static Result<String> error() {
+        return new Result<>(ErrorEnum.ERROR_500.getCode(),ErrorEnum.ERROR_500.getMessage());
+    }
+
+    public static Result<String> error(String msg) {
+        return new Result<>(ErrorEnum.ERROR_500.getCode(),msg);
+    }
+
+    public static Result<String> error(Integer code,String msg) {
+        return new Result<>(code,msg);
+    }
+
+    public static Result<String> error(ErrorEnum e) {
+        return new Result<>(e.getCode(),e.getMessage());
     }
 
 }

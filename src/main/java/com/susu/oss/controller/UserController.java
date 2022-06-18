@@ -25,30 +25,36 @@ public class UserController {
     @GetMapping("/page")
     public Result<PageData<UserDTO>> page(@RequestParam Map<String, Object> params){
         PageData<UserDTO> page = service.page(params);
-        return new Result<PageData<UserDTO>>().ok(page);
+        return Result.ok(page);
     }
 
     @GetMapping("{id}")
     public Result<UserDTO> info(@PathVariable("id") Long id){
         UserDTO dto = service.get(id);
-        return new Result<UserDTO>().ok(dto);
+        return Result.ok(dto);
     }
 
     @PostMapping
-    public Result<Boolean> save(@RequestBody UserDTO dto) {
+    public Result<String> save(@RequestBody UserDTO dto) {
         Boolean flag = service.save(dto);
-        return new Result<Boolean>().ok(flag);
+        if (!flag) {
+            return Result.error();
+        }
+        return Result.ok();
     }
 
     @PutMapping
-    public Result<Boolean> update(@RequestBody UserDTO dto) {
+    public Result<String> update(@RequestBody UserDTO dto) {
         Boolean flag = service.update(dto);
-        return new Result<Boolean>().ok(flag);
+        if (!flag) {
+            return Result.error();
+        }
+        return Result.ok();
     }
 
     @DeleteMapping
-    public Result<Integer> delete(@RequestBody Long[] id) {
-        Integer flag = service.delete(id);
-        return new Result<Integer>().ok(flag);
+    public Result<String> delete(@RequestBody Long[] id) {
+        service.delete(id);
+        return Result.ok();
     }
 }

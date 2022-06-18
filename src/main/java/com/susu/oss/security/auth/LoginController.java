@@ -64,7 +64,7 @@ public class LoginController {
         wrapper.eq("username",username);
         UserEntity sysUserEntity = userDao.selectOne(wrapper);
         UserDTO userDTO = ConvertUtils.sourceToTarget(sysUserEntity, UserDTO.class);
-        return new Result<UserDTO>().ok(userDTO);
+        return Result.ok(userDTO);
     }
 
     @PostMapping("login")
