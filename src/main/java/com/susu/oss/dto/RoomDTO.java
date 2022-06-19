@@ -14,8 +14,7 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper=false)
 public class RoomDTO extends BaseDTO implements Serializable{
   
-  private static final long serialVersionUID = 1L;
-   	private Long id;
+  	private static final long serialVersionUID = 1L;
 	  
 	/**
 	* 名称
@@ -31,9 +30,5 @@ public class RoomDTO extends BaseDTO implements Serializable{
 	* 访问权限 0 私有 1 公开
 	*/
    	private String access;
-	  
-   	private Date createDate;
-	  
-   	private Date updateDate;
 	  
 }

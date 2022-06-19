@@ -15,8 +15,7 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper=false)
 public class UserRoomEntity extends BaseEntity implements Serializable{
   
-  private static final long serialVersionUID = 1L;
-   	private Long id;
+  	private static final long serialVersionUID = 1L;
 	  
 	/**
 	* 用户
@@ -27,9 +26,5 @@ public class UserRoomEntity extends BaseEntity implements Serializable{
 	* 空间id
 	*/
    	private Long roomId;
-	  
-   	private Date createDate;
-	  
-   	private Date updateDate;
 	  
 }
